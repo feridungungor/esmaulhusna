@@ -7,6 +7,7 @@ import 'package:flutteresmaulhusna/model/husna_model.dart';
 import 'package:flutteresmaulhusna/screen/constants.dart';
 import 'package:flutteresmaulhusna/screen/data.dart';
 import 'package:flutteresmaulhusna/screen/detail_page.dart';
+import 'package:flutteresmaulhusna/screen/test_two.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
@@ -136,8 +137,15 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
-                              Hero(
-                                tag: snapshot.data[index].number,
+                              InkWell(
+                                onTap: (){
+                                  print("Tıkladı");
+                                  Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                          TestTwo()));
+                                },
                                 child: Align(
                                   alignment: Alignment.topCenter,
                                   child: Container(

@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutteresmaulhusna/model/husna_model.dart';
 import 'package:flutteresmaulhusna/screen/constants.dart';
 import 'package:flutteresmaulhusna/screen/data.dart';
 
 class DetailPage extends StatelessWidget {
-  final PlanetInfo planetInfo;
 
-  DetailPage({this.planetInfo});
+  final Data DataInfo;
+  DetailPage({this.DataInfo});
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +29,12 @@ class DetailPage extends StatelessWidget {
                           height: 300,
                         ),
                         Text(
-                          planetInfo.name,
+                          "DataInfo.name",
                           style: TextStyle(
                               fontWeight: FontWeight.w900,
                               fontSize: 56,
                               color: primaryTextColor,
-                              fontFamily: 'Avenir'),
+                          ),
                           textAlign: TextAlign.left,
                         ),
                         Text(
@@ -42,7 +43,7 @@ class DetailPage extends StatelessWidget {
                               fontWeight: FontWeight.w300,
                               fontSize: 31,
                               color: primaryTextColor,
-                              fontFamily: 'Avenir'),
+                          ),
                           textAlign: TextAlign.left,
                         ),
                         Divider(color: Colors.black38),
@@ -50,11 +51,10 @@ class DetailPage extends StatelessWidget {
                           height: 32,
                         ),
                         Text(
-                          planetInfo.description ?? '',
+                         " DataInfo.number ?? ''",
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
-                              fontFamily: 'Avenir',
                               fontSize: 20,
                               color: contentTextColor,
                               fontWeight: FontWeight.w500),
@@ -77,38 +77,46 @@ class DetailPage extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  Container(
-                    height: 250,
-                    padding: const EdgeInsets.only(left: 32.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: planetInfo.images.length,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          clipBehavior: Clip.antiAlias,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24)
-                          ),
-                          child: Image.network(planetInfo.images[index]),
-                        );
-                      },
-                    ),
-                  )
+
                 ],
               ),
             ),
             Positioned(
               right: -64,
               child: Hero(
-                tag: planetInfo.position,
-                child: Image.asset(planetInfo.iconImage),
+//                tag: DataInfo.number,
+                tag:2,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                    height: 200,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      gradient: RadialGradient(
+                        colors: [
+                          gradientStartColor,
+                          gradientEndColor.withOpacity(.8),
+                        ],
+                        stops: [0.5, 1],
+                      ),
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Center(
+                      child: Text(
+                       " DataInfo.name",
+                        style: TextStyle(
+                            fontSize: 40, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
             Positioned(
               top: 60,
               left: 32,
               child: Text(
-                planetInfo.position.toString(),
+               " DataInfo.number.toString()",
                 style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontFamily: 'Avenir',
