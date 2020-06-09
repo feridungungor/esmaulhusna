@@ -47,146 +47,129 @@ class _HomePageState extends State<HomePage> {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       stops: [0.3, 0.7])),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Allah (c.c)',
-                          style: TextStyle(
-                            fontSize: 44,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.left,
+              child: SafeArea(
+                top: true,
+                bottom: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(32.0),
+                      child: Text(
+                        'Allah (c.c)',
+                        style: TextStyle(
+                          fontSize: 44,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
                         ),
-                        DropdownButton(
-                          items: [
-                            DropdownMenuItem(
-                              child: Text(
-                                'Esma-ül Hüsna',
-                                style: TextStyle(
-                                  fontFamily: 'Avenir',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 24,
-                                  color: Color(0X7cdbf1ff),
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                            )
-                          ],
-                          onChanged: (value) {},
-                          icon: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Image.asset('assets/drop_down_icon.png'),
-                          ),
-                          underline: SizedBox(),
-                        )
-                      ],
+                        textAlign: TextAlign.left,
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: 500,
-                    padding: EdgeInsets.only(left: 32),
-                    child: Swiper(
-                      itemCount: snapshot.data.length,
-                      itemWidth: MediaQuery.of(context).size.width - 2 * 64,
-                      layout: SwiperLayout.STACK,
-                      pagination: SwiperPagination(
+                    Container(
+                      height: 500,
+                      padding: EdgeInsets.only(left: 32),
+                      child: Swiper(
+                        itemCount: 99,
+                        itemWidth: MediaQuery.of(context).size.width - 2 * 64,
+                        layout: SwiperLayout.STACK,
+                        pagination: SwiperPagination(
                           builder: DotSwiperPaginationBuilder(
-                        activeSize: 20,
-                        space: 8,
-                      )),
-                      itemBuilder: (context, index) {
-                        return Stack(
-                          children: [
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 100,
-                                ),
-                                Card(
-                                  elevation: 8,
-                                  color: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(32)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(32.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(height: 100),
-                                        Text(
-                                          snapshot.data[index].transliteration,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900,
-                                              color: Color(0Xff47455f)),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                        SizedBox(
-                                          height: 32,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Devam',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: secondaryTextColor,
-                                                fontWeight: FontWeight.w500,
+                            activeSize: 20,
+                            space: 0.5,
+                            size: 2
+                          ),
+                        ),
+                        itemBuilder: (context, index) {
+                          return Stack(
+                            children: [
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 100,
+                                  ),
+                                  Card(
+                                    elevation: 8,
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(32)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(32.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(height: 100),
+                                          Text(
+                                            snapshot.data[index].transliteration,
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w900,
+                                                color: Color(0Xff47455f)),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                          SizedBox(
+                                            height: 32,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Devam',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: secondaryTextColor,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                                textAlign: TextAlign.left,
                                               ),
-                                              textAlign: TextAlign.left,
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-                                            Icon(
-                                              Icons.arrow_forward,
-                                              color: secondaryTextColor,
-                                            ),
-                                          ],
-                                        )
-                                      ],
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward,
+                                                color: secondaryTextColor,
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Hero(
+                                tag: snapshot.data[index].number,
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          gradientStartColor,
+                                          gradientEndColor.withOpacity(.8),
+                                        ],
+                                        stops: [0.5, 1],
+                                      ),
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data[index].name,
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            Hero(
-                              tag: snapshot.data[index].number,
-                              child: Container(
-                                height: 200,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  gradient: RadialGradient(
-                                    colors: [
-                                      gradientStartColor,
-                                      gradientEndColor,
-                                    ],
-                                    stops: [0.1, 1],
-                                  ),
-                                  borderRadius: BorderRadius.circular(100),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    snapshot.data[index].name,
-                                    style: TextStyle(
-                                        fontSize: 40, color: Colors.white),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    ),
-                  )
-                ],
+                              )
+                            ],
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
               ),
             );
           } else {
