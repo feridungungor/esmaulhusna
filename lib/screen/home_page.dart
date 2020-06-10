@@ -3,9 +3,9 @@ import 'dart:math' as math;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutteresmaulhusna/data_esma.dart';
 import 'package:flutteresmaulhusna/model/husna_model.dart';
 import 'package:flutteresmaulhusna/screen/constants.dart';
-import 'package:flutteresmaulhusna/screen/data.dart';
 import 'package:flutteresmaulhusna/screen/detail_page.dart';
 import 'package:flutteresmaulhusna/screen/test_two.dart';
 import 'package:http/http.dart' as http;
@@ -18,10 +18,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future<List<Data>> _getEsma() async {
     String url =
-        "http://api.aladhan.com/asmaAlHusna/1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,991,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99";
+        "http://api.aladhan.com/asmaAlHusna/1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99";
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      print(json.decode(response.body)['data'] as List);
+      print(
+          "${(json.decode(response.body)['data'] as List).length} adet esmaülhüsna getirildi");
       return (json.decode(response.body)['data'] as List)
           .map((e) => Data.fromJson(e))
           .toList();
@@ -56,29 +57,35 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(32.0),
-                      child: Text(
-                        'Allah (c.c)',
-                        style: TextStyle(
-                          fontSize: 44,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      DetailPage(true,esmaulhusna: snapshot.data[0])));
+                        },
+                        child: Text(
+                          '${Allah} Allah (c.c)',
+                          style: TextStyle(
+                            fontSize: 44,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.left,
                         ),
-                        textAlign: TextAlign.left,
                       ),
                     ),
                     Container(
                       height: 500,
                       padding: EdgeInsets.only(left: 32),
                       child: Swiper(
-                        itemCount: 99,
+                        itemCount: snapshot.data.length,
                         itemWidth: MediaQuery.of(context).size.width - 2 * 64,
                         layout: SwiperLayout.STACK,
                         pagination: SwiperPagination(
                           builder: DotSwiperPaginationBuilder(
-                            activeSize: 20,
-                            space: 0.5,
-                            size: 2
-                          ),
+                              activeSize: 20, space: 0.5, size: 2),
                         ),
                         itemBuilder: (context, index) {
                           return Stack(
@@ -92,7 +99,8 @@ class _HomePageState extends State<HomePage> {
                                     elevation: 8,
                                     color: Colors.white,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(32)),
+                                        borderRadius:
+                                            BorderRadius.circular(32)),
                                     child: Padding(
                                       padding: const EdgeInsets.all(32.0),
                                       child: Column(
@@ -101,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                                         children: [
                                           SizedBox(height: 100),
                                           Text(
-                                            snapshot.data[index].transliteration,
+                                            "${esmalar[index].position} ${esmalar[index + 1].name}",
                                             style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight.w900,
@@ -138,34 +146,39 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                               InkWell(
-                                onTap: (){
-                                  print("Tıkladı");
+                                onTap: () {
                                   Navigator.push(
                                       context,
                                       new MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                          TestTwo()));
+                                              DetailPage(false,
+                                                esmaulhusna:
+                                                    snapshot.data[index],
+                                              )));
                                 },
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      gradient: RadialGradient(
-                                        colors: [
-                                          gradientStartColor,
-                                          gradientEndColor.withOpacity(.8),
-                                        ],
-                                        stops: [0.5, 1],
+                                child: Hero(
+                                  tag: snapshot.data[index].number,
+                                  child: Align(
+                                    alignment: Alignment.topCenter,
+                                    child: Container(
+                                      height: 200,
+                                      width: 200,
+                                      decoration: BoxDecoration(
+                                        gradient: RadialGradient(
+                                          colors: [
+                                            gradientStartColor,
+                                            gradientEndColor.withOpacity(.8),
+                                          ],
+                                          stops: [0.5, 1],
+                                        ),
+                                        borderRadius: BorderRadius.circular(100),
                                       ),
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        snapshot.data[index].name,
-                                        style: TextStyle(
-                                            fontSize: 40, color: Colors.white),
+                                      child: Center(
+                                        child: Text(
+                                          snapshot.data[index].name,
+                                          style: TextStyle(
+                                              fontSize: 40, color: Colors.white),
+                                        ),
                                       ),
                                     ),
                                   ),

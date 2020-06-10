@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutteresmaulhusna/data_esma.dart';
 import 'package:flutteresmaulhusna/model/husna_model.dart';
 import 'package:flutteresmaulhusna/screen/constants.dart';
-import 'package:flutteresmaulhusna/screen/data.dart';
 
 class DetailPage extends StatelessWidget {
+  Data esmaulhusna;
+  bool is_first;
 
-  final Data DataInfo;
-  DetailPage({this.DataInfo});
+  DetailPage(this.is_first, {@required this.esmaulhusna});
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +30,22 @@ class DetailPage extends StatelessWidget {
                           height: 300,
                         ),
                         Text(
-                          "DataInfo.name",
+                          is_first
+                              ? esmalar[0].name.substring(0, 5)
+                              : esmalar[(esmaulhusna.number)].name.toString(),
                           style: TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 56,
-                              color: primaryTextColor,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 56,
+                            color: primaryTextColor,
                           ),
                           textAlign: TextAlign.left,
                         ),
                         Text(
-                          'Solar System',
+                          'Celle Celalühü',
                           style: TextStyle(
-                              fontWeight: FontWeight.w300,
-                              fontSize: 31,
-                              color: primaryTextColor,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 31,
+                            color: primaryTextColor,
                           ),
                           textAlign: TextAlign.left,
                         ),
@@ -51,7 +54,7 @@ class DetailPage extends StatelessWidget {
                           height: 32,
                         ),
                         Text(
-                         " DataInfo.number ?? ''",
+                          esmalar[(esmaulhusna.number)].esmadetail,
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -59,53 +62,39 @@ class DetailPage extends StatelessWidget {
                               color: contentTextColor,
                               fontWeight: FontWeight.w500),
                         ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                        Divider(color: Colors.black38)
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 32.0),
-                    child: Text(
-                      'Galery',
-                      style: TextStyle(
-                          fontFamily: 'Avenir',
-                          fontSize: 25,
-                          fontWeight: FontWeight.w300),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-
                 ],
               ),
             ),
             Positioned(
-              right: -64,
+              right: -10,
               child: Hero(
-//                tag: DataInfo.number,
-                tag:2,
+                tag: esmaulhusna.number,
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Container(
-                    height: 200,
-                    width: 200,
+                    height: 250,
+                    width: 250,
                     decoration: BoxDecoration(
                       gradient: RadialGradient(
                         colors: [
-                          gradientStartColor,
-                          gradientEndColor.withOpacity(.8),
+                          primaryTextColor,
+                          Colors.white.withOpacity(.5),
                         ],
-                        stops: [0.5, 1],
+                        stops: [0.1, 1],
                       ),
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(1000),
                     ),
                     child: Center(
                       child: Text(
-                       " DataInfo.name",
+                        is_first ? Allah : esmaulhusna.name,
                         style: TextStyle(
-                            fontSize: 40, color: Colors.white),
+                          fontSize: 60,
+                          color: titleTextColor,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
                   ),
@@ -113,22 +102,22 @@ class DetailPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 60,
+              top: 120,
               left: 32,
               child: Text(
-               " DataInfo.number.toString()",
+                is_first ? Allah : (esmaulhusna.number).toString(),
                 style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'Avenir',
-                  fontSize: 247,
-                  color: primaryTextColor.withOpacity(0.08)
-                ),
+                    fontWeight: FontWeight.w900,
+                    fontSize: 200,
+                    color: primaryTextColor.withOpacity(0.08)),
                 textAlign: TextAlign.left,
               ),
             ),
             IconButton(
-              icon: Icon( Icons.arrow_back_ios),
-              onPressed: (){Navigator.pop(context);},
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
