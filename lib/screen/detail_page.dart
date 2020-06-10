@@ -55,7 +55,7 @@ class DetailPage extends StatelessWidget {
                           height: 32,
                         ),
                         Text(
-                          esmalar[(esmaulhusna.number)].esmadetail,
+                          esmalar[(esmaulhusna.number)].uzunAciklama,
                           maxLines: 5,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
