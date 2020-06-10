@@ -41,14 +41,16 @@ class _HomePageState extends State<HomePage> {
           if (snapshot.hasData) {
             return Container(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [
-                        gradientStartColor,
-                        gradientEndColor,
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      stops: [0.3, 0.7])),
+                gradient: LinearGradient(
+                  colors: [
+                    gradientStartColor,
+                    gradientEndColor,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.3, 0.7],
+                ),
+              ),
               child: SafeArea(
                 top: true,
                 bottom: true,
@@ -60,10 +62,14 @@ class _HomePageState extends State<HomePage> {
                       child: InkWell(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      DetailPage(true,esmaulhusna: snapshot.data[0])));
+                            context,
+                            new MaterialPageRoute(
+                              builder: (BuildContext context) => DetailPage(
+                                true,
+                                esmaulhusna: snapshot.data[0],
+                              ),
+                            ),
+                          );
                         },
                         child: Text(
                           '${Allah} Allah (c.c)',
@@ -77,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     Container(
-                      height: 500,
+                      height:450,
                       padding: EdgeInsets.only(left: 32),
                       child: Swiper(
                         itemCount: snapshot.data.length,
@@ -85,6 +91,7 @@ class _HomePageState extends State<HomePage> {
                         layout: SwiperLayout.STACK,
                         pagination: SwiperPagination(
                           builder: DotSwiperPaginationBuilder(
+                            activeColor: gradientStartColor.withOpacity(.5),
                               activeSize: 20, space: 0.5, size: 2),
                         ),
                         itemBuilder: (context, index) {
@@ -111,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                                           Text(
                                             "${esmalar[index].position} ${esmalar[index + 1].name}",
                                             style: TextStyle(
-                                                fontSize: 20,
+                                                fontSize: 25,
                                                 fontWeight: FontWeight.w900,
                                                 color: Color(0Xff47455f)),
                                             textAlign: TextAlign.left,
@@ -121,17 +128,32 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                           Row(
                                             children: [
-                                              Text(
-                                                'Devam',
-                                                style: TextStyle(
-                                                  fontSize: 18,
-                                                  color: secondaryTextColor,
-                                                  fontWeight: FontWeight.w500,
+                                              InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      new MaterialPageRoute(
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              DetailPage(
+                                                                false,
+                                                                esmaulhusna:
+                                                                    snapshot.data[
+                                                                        index],
+                                                              )));
+                                                },
+                                                child: Text(
+                                                  'Devam',
+                                                  style: TextStyle(
+                                                    fontSize: 22,
+                                                    color: secondaryTextColor,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  textAlign: TextAlign.left,
                                                 ),
-                                                textAlign: TextAlign.left,
                                               ),
                                               SizedBox(
-                                                width: 20,
+                                                width: 10,
                                               ),
                                               Icon(
                                                 Icons.arrow_forward,
@@ -145,40 +167,28 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ],
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      new MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              DetailPage(false,
-                                                esmaulhusna:
-                                                    snapshot.data[index],
-                                              )));
-                                },
-                                child: Hero(
-                                  tag: snapshot.data[index].number,
-                                  child: Align(
-                                    alignment: Alignment.topCenter,
-                                    child: Container(
-                                      height: 200,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        gradient: RadialGradient(
-                                          colors: [
-                                            gradientStartColor,
-                                            gradientEndColor.withOpacity(.8),
-                                          ],
-                                          stops: [0.5, 1],
-                                        ),
-                                        borderRadius: BorderRadius.circular(100),
+                              Hero(
+                                tag: snapshot.data[index].number,
+                                child: Align(
+                                  alignment: Alignment.topCenter,
+                                  child: Container(
+                                    height: 200,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      gradient: RadialGradient(
+                                        colors: [
+                                          gradientStartColor,
+                                          gradientEndColor.withOpacity(.8),
+                                        ],
+                                        stops: [0.5, 1],
                                       ),
-                                      child: Center(
-                                        child: Text(
-                                          snapshot.data[index].name,
-                                          style: TextStyle(
-                                              fontSize: 40, color: Colors.white),
-                                        ),
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data[index].name,
+                                        style: TextStyle(
+                                            fontSize: 40, color: Colors.white),
                                       ),
                                     ),
                                   ),

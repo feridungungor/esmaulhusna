@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutteresmaulhusna/data_esma.dart';
 import 'package:flutteresmaulhusna/model/husna_model.dart';
 import 'package:flutteresmaulhusna/screen/constants.dart';
