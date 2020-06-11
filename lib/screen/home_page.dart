@@ -22,7 +22,8 @@ class _HomePageState extends State<HomePage> {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       print(
-          "${(json.decode(response.body)['data'] as List).length} adet esmaülhüsna getirildi");
+          "${(json.decode(response.body)['data'] as List)
+              .length} adet esmaülhüsna getirildi");
       return (json.decode(response.body)['data'] as List)
           .map((e) => Data.fromJson(e))
           .toList();
@@ -51,22 +52,11 @@ class _HomePageState extends State<HomePage> {
                   stops: [0.3, 0.7],
                 ),
               ),
-              child: SafeArea(
-                top: true,
-                bottom: true,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TopBaslik(context, snapshot),
-                    Expanded(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height,
-                        padding: EdgeInsets.only(left: 32),
-                        child: CustomSwiper(snapshot, context),
-                      ),
-                    )
-                  ],
-                ),
+              child: Column(
+                children: [
+                  TopBaslik(context, snapshot),
+                  CustomSwiper(snapshot, context),
+                ],
               ),
             );
           } else {
@@ -80,32 +70,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container CustomBottomNavigationBar() {
-    return Container(
-      decoration: BoxDecoration(
-          color: navigationColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(36))),
-      padding: EdgeInsets.all(24),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Icon(
-            Icons.apps,
-            size: 35,
-            color: secondaryTextColor,
-          ),
-          Icon(
-            Icons.search,
-            size: 35,
-          ),
-          Icon(
-            Icons.person,
-            size: 35,
-          )
-        ],
-      ),
-    );
-  }
+
 
   Widget TopBaslik(BuildContext context, AsyncSnapshot<List<Data>> snapshot) {
     return Container(
@@ -115,135 +80,182 @@ class _HomePageState extends State<HomePage> {
           Navigator.push(
             context,
             new MaterialPageRoute(
-              builder: (BuildContext context) => DetailPage(
-                true,
-                esmaulhusna: snapshot.data[0],
-              ),
+              builder: (BuildContext context) =>
+                  DetailPage(
+                    true,
+                    esmaulhusna: snapshot.data[0],
+                  ),
             ),
           );
         },
         child: Center(
-          child: Text(
-            'Allah (c.c)',
-            style: TextStyle(
-              fontSize: 64,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-              fontFamily: 'Arabic'
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              'Allah (c.c)',
+              style: TextStyle(
+                  fontSize: 64,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
+                  fontFamily: 'Kufi',
+                  letterSpacing: 2
+              ),
             ),
-            textAlign: TextAlign.left,
           ),
         ),
       ),
     );
   }
 
-  Swiper CustomSwiper(
-      AsyncSnapshot<List<Data>> snapshot, BuildContext context) {
-    return Swiper(
-      itemCount: snapshot.data.length,
-      itemWidth: MediaQuery.of(context).size.width - 2 * 64,
-      layout: SwiperLayout.STACK,
-//      pagination: SwiperPagination(
-//        builder: DotSwiperPaginationBuilder(
-//            activeColor: gradientStartColor.withOpacity(.5),
-//            activeSize: 20,
-//            space: 0.5,
-//            size: 2),
-//      ),
-      itemBuilder: (context, index) {
-        return Stack(
-          overflow: Overflow.visible,
-          children: [
+  Widget CustomSwiper(AsyncSnapshot<List<Data>> snapshot,
+      BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    return Expanded(
+      child: Container(
+        height: height,
+        width : width,
+        child: Swiper(
+          itemCount: snapshot.data.length,
+          itemWidth: MediaQuery
+              .of(context)
+              .size
+              .width - 2 * 64,
+          layout: SwiperLayout.STACK,
+          itemBuilder: (context, index) {
+            print("height ${height}");
+            print("width ${width}");
+            return Stack(
+              children: [
             Container(
-              margin: EdgeInsets.only(top: 125),
-              height: 400,
-              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(top: 120),
+              height: height/2-20,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      gradientStartColor,
-                      gradientEndColor,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0.1, 0.7],
-                  ),
-                  borderRadius: BorderRadius.circular(32),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black38,
-                        offset: Offset(1, 6),
-                        blurRadius: 10),
+                gradient: LinearGradient(
+                  colors: [
+                    gradientStartColor,
+                    gradientEndColor,
                   ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.1, 0.7],
+                ),
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black38,
+                      offset: Offset(1, 6),
+                      blurRadius: 10),
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 145),
+                  SizedBox(height: height/5),
                   Text(
-                    esmalar[index + 1].name.replaceAll('-', ' ').replaceAll('İ', 'I').replaceAll('Ğ', 'G'),
+                    esmalar[index + 1].name.replaceAll('-', ' ').replaceAll(
+                        'İ', 'I').replaceAll('Ğ', 'G'),
                     style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontFamily: 'Arabic'
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontFamily: 'Arabic'
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 15),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 18),
                     child: Center(
-                        child: Text(
-                      esmalar[index + 1].kisaAciklama.replaceAll('ş', 's').replaceAll('İ', 'I'),
-                      style: TextStyle(fontSize: 25, color: Colors.white,
-                      fontFamily: 'Kufi'),
-                    )),
-                  ),
-                  SizedBox(height: 25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Detay",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: 'Kufi'
+                          child: Text(
+                            esmalar[index + 1]
+                                .kisaAciklama
+                                .replaceAll('ş', 's')
+                                .replaceAll('İ', 'I'),
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Colors.white,
+                                fontFamily: 'Arabic',
+                              height: 1
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            textAlign: TextAlign.center,
+
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                        size: 25,
-                      ),
-                      SizedBox(width: 20,),
-                    ],
-                  )
+                  ),
                 ],
               ),
             ),
-            Positioned(
-              left: 20,
-                child: CircleEsmaArabic(snapshot, index))
-          ],
-        );
-      },
+                Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                          new MaterialPageRoute(
+                            builder: (BuildContext context) => DetailPage(
+                              false,
+                              esmaulhusna: snapshot.data[index],
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: height*1/3.2,
+                        width: height*1/3.2,
+                        decoration: BoxDecoration(
+                          gradient: RadialGradient(
+                            colors: [
+                              gradientStartColor,
+                              gradientEndColor.withOpacity(.8),
+                            ],
+                            stops: [0.5, 1],
+                          ),
+                          borderRadius: BorderRadius.circular(1000),
+                        ),
+                        child: Center(
+                          child: Text(
+                            snapshot.data[index].name,
+                            style: snapshot.data[index].number == 85
+                                ? TextStyle(
+                                    fontSize: 35,
+                                    color: Colors.white,
+                                    fontFamily: 'Arabic')
+                                : TextStyle(
+                                    fontSize: 70,
+                                    color: Colors.white,
+                                    fontFamily: 'Arabic'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 
-   CircleEsmaArabic(AsyncSnapshot<List<Data>> snapshot, int index) {
+  CircleEsmaArabic(AsyncSnapshot<List<Data>> snapshot, int index) {
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             new MaterialPageRoute(
-                builder: (BuildContext context) => DetailPage(
-                  false,
-                  esmaulhusna: snapshot.data[index],
-                )));
+                builder: (BuildContext context) =>
+                    DetailPage(
+                      false,
+                      esmaulhusna: snapshot.data[index],
+                    )));
       },
       child: Container(
         height: 250,
@@ -262,10 +274,38 @@ class _HomePageState extends State<HomePage> {
           child: Text(
             snapshot.data[index].name,
             style: snapshot.data[index].number == 85
-                ? TextStyle(fontSize: 35, color: Colors.white,fontFamily: 'Arabic')
-                : TextStyle(fontSize: 70, color: Colors.white,fontFamily: 'Arabic'),
+                ? TextStyle(
+                fontSize: 35, color: Colors.white, fontFamily: 'Arabic')
+                : TextStyle(
+                fontSize: 70, color: Colors.white, fontFamily: 'Arabic'),
           ),
         ),
+      ),
+    );
+  }
+  Container CustomBottomNavigationBar() {
+    return Container(
+      decoration: BoxDecoration(
+          color: navigationColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(36))),
+      padding: EdgeInsets.all(10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(
+            Icons.apps,
+            size: 35,
+            color: secondaryTextColor,
+          ),
+          Icon(
+            Icons.search,
+            size: 35,
+          ),
+          Icon(
+            Icons.person,
+            size: 35,
+          )
+        ],
       ),
     );
   }
