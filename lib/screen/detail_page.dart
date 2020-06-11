@@ -122,7 +122,7 @@ class _DetailPageState extends State<DetailPage> {
           backIcon(context),
           AnimatedPositioned(
             duration: Duration(milliseconds: 400),
-            bottom: _isUzunAciklama || _isUzunFazilet ? -1:-600,
+            bottom: _isUzunAciklama || _isUzunFazilet ? -1:-650,
             child: Container(
               height: MediaQuery.of(context).size.height-200,
               width: MediaQuery.of(context).size.width,
@@ -250,8 +250,8 @@ class _DetailPageState extends State<DetailPage> {
   }
   Positioned backIcon(BuildContext context) {
     return Positioned(
-      top: 10,
-
+      top: 40,
+      left: 10,
       child: IconButton(
             icon: Icon(Icons.arrow_back_ios,size: 40,),
             onPressed: () {
