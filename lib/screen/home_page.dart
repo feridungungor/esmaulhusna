@@ -57,146 +57,12 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(32.0),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                              builder: (BuildContext context) => DetailPage(
-                                true,
-                                esmaulhusna: snapshot.data[0],
-                              ),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          '${Allah} Allah (c.c)',
-                          style: TextStyle(
-                            fontSize: 44,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height:450,
-                      padding: EdgeInsets.only(left: 32),
-                      child: Swiper(
-                        itemCount: snapshot.data.length,
-                        itemWidth: MediaQuery.of(context).size.width - 2 * 64,
-                        layout: SwiperLayout.STACK,
-                        pagination: SwiperPagination(
-                          builder: DotSwiperPaginationBuilder(
-                            activeColor: gradientStartColor.withOpacity(.5),
-                              activeSize: 20, space: 0.5, size: 2),
-                        ),
-                        itemBuilder: (context, index) {
-                          return Stack(
-                            children: [
-                              Column(
-                                children: [
-                                  SizedBox(
-                                    height: 100,
-                                  ),
-                                  Card(
-                                    elevation: 8,
-                                    color: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(32)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(32.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(height: 100),
-                                          Text(
-                                            "${esmalar[index].position} ${esmalar[index + 1].name}",
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.w900,
-                                                color: Color(0Xff47455f)),
-                                            textAlign: TextAlign.left,
-                                          ),
-                                          SizedBox(
-                                            height: 32,
-                                          ),
-                                          Row(
-                                            children: [
-                                              InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      new MaterialPageRoute(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              DetailPage(
-                                                                false,
-                                                                esmaulhusna:
-                                                                    snapshot.data[
-                                                                        index],
-                                                              )));
-                                                },
-                                                child: Text(
-                                                  'Devam',
-                                                  style: TextStyle(
-                                                    fontSize: 22,
-                                                    color: secondaryTextColor,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                  textAlign: TextAlign.left,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward,
-                                                color: secondaryTextColor,
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Hero(
-                                tag: snapshot.data[index].number,
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    decoration: BoxDecoration(
-                                      gradient: RadialGradient(
-                                        colors: [
-                                          gradientStartColor,
-                                          gradientEndColor.withOpacity(.8),
-                                        ],
-                                        stops: [0.5, 1],
-                                      ),
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        snapshot.data[index].name,
-                                        style: TextStyle(
-                                            fontSize: 40, color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          );
-                        },
+                    TopBaslik(context, snapshot),
+                    Expanded(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height,
+                        padding: EdgeInsets.only(left: 32),
+                        child: CustomSwiper(snapshot, context),
                       ),
                     )
                   ],
@@ -210,27 +76,195 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            color: navigationColor,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(36))),
-        padding: EdgeInsets.all(24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      bottomNavigationBar: CustomBottomNavigationBar(),
+    );
+  }
+
+  Container CustomBottomNavigationBar() {
+    return Container(
+      decoration: BoxDecoration(
+          color: navigationColor,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(36))),
+      padding: EdgeInsets.all(24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(
+            Icons.apps,
+            size: 35,
+            color: secondaryTextColor,
+          ),
+          Icon(
+            Icons.search,
+            size: 35,
+          ),
+          Icon(
+            Icons.person,
+            size: 35,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget TopBaslik(BuildContext context, AsyncSnapshot<List<Data>> snapshot) {
+    return Container(
+      padding: const EdgeInsets.only(top: 25),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(
+              builder: (BuildContext context) => DetailPage(
+                true,
+                esmaulhusna: snapshot.data[0],
+              ),
+            ),
+          );
+        },
+        child: Center(
+          child: Text(
+            'Allah (c.c)',
+            style: TextStyle(
+              fontSize: 64,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              fontFamily: 'Arabic'
+            ),
+            textAlign: TextAlign.left,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Swiper CustomSwiper(
+      AsyncSnapshot<List<Data>> snapshot, BuildContext context) {
+    return Swiper(
+      itemCount: snapshot.data.length,
+      itemWidth: MediaQuery.of(context).size.width - 2 * 64,
+      layout: SwiperLayout.STACK,
+//      pagination: SwiperPagination(
+//        builder: DotSwiperPaginationBuilder(
+//            activeColor: gradientStartColor.withOpacity(.5),
+//            activeSize: 20,
+//            space: 0.5,
+//            size: 2),
+//      ),
+      itemBuilder: (context, index) {
+        return Stack(
+          overflow: Overflow.visible,
           children: [
-            IconButton(
-              icon: Image.asset('assets/menu_icon.png'),
-              onPressed: () {},
+            Container(
+              margin: EdgeInsets.only(top: 125),
+              height: 400,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      gradientStartColor,
+                      gradientEndColor,
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.1, 0.7],
+                  ),
+                  borderRadius: BorderRadius.circular(32),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black38,
+                        offset: Offset(1, 6),
+                        blurRadius: 10),
+                  ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 145),
+                  Text(
+                    esmalar[index + 1].name.replaceAll('-', ' ').replaceAll('İ', 'I').replaceAll('Ğ', 'G'),
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontFamily: 'Arabic'
+                    ),
+                  ),
+                  SizedBox(height: 25),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Center(
+                        child: Text(
+                      esmalar[index + 1].kisaAciklama.replaceAll('ş', 's').replaceAll('İ', 'I'),
+                      style: TextStyle(fontSize: 25, color: Colors.white,
+                      fontFamily: 'Kufi'),
+                    )),
+                  ),
+                  SizedBox(height: 25),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Detay",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontFamily: 'Kufi'
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Colors.white,
+                        size: 25,
+                      ),
+                      SizedBox(width: 20,),
+                    ],
+                  )
+                ],
+              ),
             ),
-            IconButton(
-              icon: Image.asset('assets/search_icon.png'),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: Image.asset('assets/profile_icon.png'),
-              onPressed: () {},
-            )
+            Positioned(
+              left: 20,
+                child: CircleEsmaArabic(snapshot, index))
           ],
+        );
+      },
+    );
+  }
+
+   CircleEsmaArabic(AsyncSnapshot<List<Data>> snapshot, int index) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (BuildContext context) => DetailPage(
+                  false,
+                  esmaulhusna: snapshot.data[index],
+                )));
+      },
+      child: Container(
+        height: 250,
+        width: 250,
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            colors: [
+              gradientStartColor,
+              gradientEndColor.withOpacity(.8),
+            ],
+            stops: [0.5, 1],
+          ),
+          borderRadius: BorderRadius.circular(1000),
+        ),
+        child: Center(
+          child: Text(
+            snapshot.data[index].name,
+            style: snapshot.data[index].number == 85
+                ? TextStyle(fontSize: 35, color: Colors.white,fontFamily: 'Arabic')
+                : TextStyle(fontSize: 70, color: Colors.white,fontFamily: 'Arabic'),
+          ),
         ),
       ),
     );
