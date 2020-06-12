@@ -22,7 +22,11 @@ class DataEsma {
 }
 
 String Allah = "الله";
-
+const List <String> assetsIcon = [
+  "assets/salah.svg",
+  "assets/tulip.svg",
+  "assets/rose1.svg",
+];
 List<DataEsma> esmalar = [
   DataEsma(
       position: 1,

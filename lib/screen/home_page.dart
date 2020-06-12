@@ -9,6 +9,7 @@ import 'package:flutteresmaulhusna/screen/constants.dart';
 import 'package:flutteresmaulhusna/screen/detail_page.dart';
 import 'package:flutteresmaulhusna/screen/test_two.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -292,19 +293,11 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(
-            Icons.apps,
-            size: 35,
-            color: secondaryTextColor,
-          ),
-          Icon(
-            Icons.search,
-            size: 35,
-          ),
-          Icon(
-            Icons.person,
-            size: 35,
-          )
+          SvgPicture.asset(assetsIcon[2],height: 45,)
+          ,
+          SvgPicture.asset(assetsIcon[1],height: 45,)
+          ,
+          SvgPicture.asset(assetsIcon[0],height: 45,)
         ],
       ),
     );
