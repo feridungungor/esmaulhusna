@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutteresmaulhusna/models/personel.dart';
+import 'package:flutteresmaulhusna/model/husna_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -7,10 +7,13 @@ import 'package:path/path.dart';
 class DatabaseHelper {
   static DatabaseHelper _databaseHelper;
   static Database _database;
-  String _personelTablo = 'personel';
-  String _sutunId = 'id';
-  String _sutunIsim = 'isim';
-  String _sutunAktif = 'aktif';
+
+  String _esmaulhusnaTablo = 'esmaulhusna';
+  String _sutunName = 'name';
+  String _sutunMana = 'transliteration';
+  String _sutunId = 'number';
+
+
 
   DatabaseHelper._internal();
 
@@ -34,41 +37,33 @@ class DatabaseHelper {
 
   initDB() async {
     Directory klasor = await getApplicationDocumentsDirectory();
-    String path = join(klasor.path, 'personel.db');
-    var personelDB =
+    String path = join(klasor.path, 'esmaulhusna.db');
+    var esmaulhusnaDB =
         await openDatabase(path, version: 1, onCreate: _creatTablo);
-    return personelDB;
+    return esmaulhusnaDB;
   }
 
   Future _creatTablo(Database db, int versiyon) async {
     await db.execute(
-        "CREATE TABLE $_personelTablo ($_sutunId INTEGER PRIMARY KEY AUTOINCREMENT, $_sutunIsim TEXT, $_sutunAktif TEXT )");
+        "CREATE TABLE $_esmaulhusnaTablo  ($_sutunId , $_sutunName TEXT, $_sutunMana TEXT )");
   }
 
-  Future<int> personelEkle(Personel per) async{
+  Future<int> esmaEkle(Data esma) async{
     var db = await getDatabase();
-    var sonuc = await db.insert(_personelTablo, per.toMap());
+    var sonuc = await db.insert(_esmaulhusnaTablo, esma.toJson());
     return sonuc;
   }
 
 
-  Future<List<Map<String,dynamic>>>personelleriGetir() async {
+  Future<List<Map<String,dynamic>>>esmalariGetir() async {
     var db = await getDatabase();
-    var sonuc = await db.query(_personelTablo, orderBy: '$_sutunId DESC');
+    var sonuc = await db.query(_esmaulhusnaTablo);
     return sonuc;
   }
 
-  Future<int> personeliGuncelle(Personel per) async {
-    var db = await getDatabase();
-    var sonuc = await db.update(_personelTablo, per.toMap(), where: '$_sutunId', whereArgs: [per.id]);
-    return sonuc;
-  }
 
-  Future<int> personelSil(int id) async{
-    var db = await getDatabase();
-
-    var sonuc = await db.delete(_personelTablo,where: '$_sutunId = ?', whereArgs: [id]);
-    return sonuc;
-  }
-
+ bool databaseReady(){
+    if(_database == null){return false;}
+    else{return true;}
+ }
 }
