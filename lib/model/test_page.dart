@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutteresmaulhusna/model/husna_model.dart';
 import 'package:flutteresmaulhusna/tools/database.dart';
-<<<<<<< HEAD
-=======
 import 'package:sqflite/sqflite.dart';
 import 'package:http/http.dart' as http;
->>>>>>> 442ec8d437a3ab9782ec748b52c01da438f539a0
-
 
 class TestPage extends StatefulWidget {
   @override
@@ -17,54 +14,56 @@ class TestPage extends StatefulWidget {
 class _TestPageState extends State<TestPage> {
   var dbhelper;
   var datam;
-  var list = [];
+  List<Data> listofhope = [];
+
+
   @override
   Future<void> initState() {
     super.initState();
     dbhelper = DatabaseHelper();
-    if(dbhelper.databaseReady()){
-      print("Girdi");
-    }else{
-      print("Girmedi");
-      goster();
-    }
-//    if(dbhelper.databaseReady()){
-//      print("* database hazır");
-//    }else{
-//      print("* database hazır değil");
-//    _getEsma().then((value){
-//      ekle(value);
-//    });
-//  }
+    DOITBRO();
   }
+
   @override
   Widget build(BuildContext context) {
-
-//   goster();
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sqflite"),
-        centerTitle: true,
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blue,
-              Colors.green,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: [0.3, 0.7],
-          ),
-        ),
-        child: ListView.builder(
-          itemBuilder: (context,index){
-            return ListTile(
-                title: Text("")
-            );
-          },
-        ),
+      body: FutureBuilder(
+        future: goster(),
+        builder: (BuildContext context, AsyncSnapshot<List<Data>> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        snapshot.data[index].number.toString(),
+                        style: TextStyle(
+                          fontFamily: 'Arabic',
+                          fontSize: 60,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(width: 20,),
+                      Text(
+                        snapshot.data[index].name,
+                        style: TextStyle(
+                          fontFamily: 'Arabic',
+                          fontSize: 60,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                  );
+                });
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }
@@ -77,13 +76,11 @@ class _TestPageState extends State<TestPage> {
     }
   }
 
-  goster() async{
-//    var s = await dbhelper.esmalariGetir();
-//    for(var a in s){
-//     print(a.runtimeType);
-//    }
-
-
+  Future<List<Data>> goster() async {
+    var myQueryResultSet = await dbhelper.esmalariGetir();
+    listofhope =
+        (myQueryResultSet as List).map((e) => Data.fromJson(e)).toList();
+    return listofhope;
   }
 
   Future<List<Data>> _getEsma() async {
@@ -96,6 +93,16 @@ class _TestPageState extends State<TestPage> {
           .toList();
     } else {
       throw Exception("Bağlanamadık: ${response.statusCode}");
+    }
+  }
+
+  void DOITBRO() async{
+    int count = await dbhelper.queryLenght();
+    if(count == 0){
+      print("Here i am baby");
+      _getEsma().then((value){
+      ekle(value);
+    });
     }
   }
 }

@@ -13,8 +13,6 @@ class DatabaseHelper {
   String _sutunMana = 'transliteration';
   String _sutunId = 'number';
 
-
-
   DatabaseHelper._internal();
 
   factory DatabaseHelper() {
@@ -48,22 +46,21 @@ class DatabaseHelper {
         "CREATE TABLE $_esmaulhusnaTablo  ($_sutunId , $_sutunName TEXT, $_sutunMana TEXT )");
   }
 
-  Future<int> esmaEkle(Data esma) async{
+  Future<int> esmaEkle(Data esma) async {
     var db = await getDatabase();
     var sonuc = await db.insert(_esmaulhusnaTablo, esma.toJson());
     return sonuc;
   }
 
-
-  Future<List<Map<String,dynamic>>>esmalariGetir() async {
+  Future<List<Map<String, dynamic>>> esmalariGetir() async {
     var db = await getDatabase();
     var sonuc = await db.query(_esmaulhusnaTablo);
     return sonuc;
   }
 
-
- bool databaseReady(){
-    if(_database == null){return false;}
-    else{return true;}
- }
+  Future<int> queryLenght() async{
+    var db = await getDatabase();
+    var sonuc = await db.query(_esmaulhusnaTablo);
+    return sonuc.length;
+  }
 }
